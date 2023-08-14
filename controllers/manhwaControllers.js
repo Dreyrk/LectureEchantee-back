@@ -15,6 +15,20 @@ const manwhaControllers = {
       res.status(500).send({ error: e.message });
     }
   },
+  getById: async (req, res) => {
+    const { id } = req.params;
+    try {
+      const data = await Manhwa.findById(id);
+
+      if (!data) {
+        res.status(404).send({ error: "Manhwa not found" });
+      } else {
+        res.status(200).send({ data });
+      }
+    } catch (e) {
+      res.status(500).send({ error: e.message });
+    }
+  },
 };
 
 export default manwhaControllers;
