@@ -7,6 +7,8 @@ on:
 jobs:
   test-back:
     runs-on: ubuntu-latest
+    env:
+      TEST_URI: ${{ secrets.TEST_URI }}
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2 
