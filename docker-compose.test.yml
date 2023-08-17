@@ -1,0 +1,39 @@
+version: "3"
+
+name: ci-testing
+
+services:
+  test-mongodb:
+    image: mongo:latest
+    networks:
+      - testbackendnetwork
+    command: mongod --quiet
+    healthcheck:
+      test: echo 'db.runCommand({serverStatus:1}).ok' | mongosh admin -u $MONGO_INITDB_ROOT_USERNAME -p $MONGO_INITDB_ROOT_PASSWORD --quiet | grep 1
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+
+  test-api:
+    build:
+      dockerfile: ./test.Dockerfile
+    networks:
+      - testbackendnetwork
+    ports:
+      - 5000:5000
+    depends_on:
+      test-mongodb:
+        condition: service_healthy
+    command: sh ./test-entrypoint.sh
+    environment:
+      ENV: "test"
+      TEST_URI: ${TEST_URI}
+      JWT_SECRET: ${JWT_SECRET}
+
+networks:
+  testbackendnetwork:
+    driver: bridge

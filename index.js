@@ -3,7 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 
+//DB Connection
 import main from "./db.js";
+//Routers
 import manhwaRouter from "./routers/manhwaRouter.js";
 import userRouter from "./routers/userRouter.js";
 import welcomeRouter from "./routers/welcomeRouter.js";
