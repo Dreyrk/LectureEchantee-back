@@ -21,7 +21,7 @@ jobs:
       run: |
         while true; do
           sleep 2
-          if [[ $(docker ps -a | grep Exited | grep api) ]]; then
+          if ! docker ps -q --filter "status=running" --filter "name=ci-testing-test-api-1" >/dev/null; then
             echo "Test Done!"
             break
           fi
