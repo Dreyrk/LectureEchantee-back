@@ -3,7 +3,7 @@ import Manhwa from "./models/manhwa.js";
 import manhwas from "./data/manhwas.json" assert { type: "json" };
 import main from "./db.js";
 
-async function manhwaSeed() {
+export async function manhwaSeed() {
   try {
     await main();
     await Manhwa.deleteMany(); // Supprime les données existantes

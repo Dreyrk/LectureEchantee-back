@@ -1,4 +1,5 @@
 import Manhwa from "../models/manhwa.js";
+import isValid from "../utils/isValid.js";
 
 const manwhaControllers = {
   getAll: async (req, res) => {
@@ -17,10 +18,15 @@ const manwhaControllers = {
   },
   getById: async (req, res) => {
     const { id } = req.params;
+
+    if (!isValid(id)) {
+      res.status(400).send({ error: "Bad or fake mongo id" });
+      return;
+    }
+
     try {
       const data = await Manhwa.findById(id);
-
-      if (!data) {
+      if (!data._id && isValid(id)) {
         res.status(404).send({ error: "Manhwa not found" });
       } else {
         res.status(200).send({ data });
@@ -36,11 +42,7 @@ const manwhaControllers = {
 
       const data = await Manhwa.findOne().skip(randomIndex);
 
-      if (!data) {
-        res.status(404).send({ error: "Manhwa not found" });
-      } else {
-        res.status(200).send({ data });
-      }
+      res.status(200).send({ data });
     } catch (e) {
       res.status(500).send({ error: e.message });
     }
