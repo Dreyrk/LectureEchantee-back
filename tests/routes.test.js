@@ -2,7 +2,6 @@ import chai from "chai";
 const { expect: chaiExcept } = chai;
 
 import Manhwa from "../models/manhwa.js";
-import main from "../db.js";
 
 describe("ROUTES", () => {
   describe("Manhwa", () => {
@@ -12,8 +11,7 @@ describe("ROUTES", () => {
     });
     it("GET /api/manhwa/id/:id should return status 200", async () => {
       //Create a new manhwa
-      await Manhwa.create({ title: "test" });
-      const testManhwa = await Manhwa.findOne({ title: "test" }).select("_id");
+      const testManhwa = await Manhwa.findOne().select("_id");
       const id = testManhwa._id.toString();
       //fetch manhwa by id with the id of the new manhwa created
       const res = await fetch(`http://127.0.0.1:5000/api/manhwa/id/${id}`);
