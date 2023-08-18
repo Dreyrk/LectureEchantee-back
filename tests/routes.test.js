@@ -6,9 +6,6 @@ import main from "../db.js";
 
 describe("ROUTES", () => {
   describe("Manhwa", () => {
-    beforeEach(async () => {
-      await main();
-    });
     it("GET /api/manhwa/all should return status 200", async () => {
       const res = await fetch("http://127.0.0.1:5000/api/manhwa/all");
       chaiExcept(res.status).to.equal(200);
