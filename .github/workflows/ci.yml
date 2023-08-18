@@ -21,7 +21,7 @@ jobs:
       run: |
         while true; do
           sleep 2
-          if docker logs ci-testing-test-api-1 | grep -q "All tests completed"; then
+          if [[ $(docker ps -a | grep Exited | grep api) ]]; then
             echo "Test Done!"
             break
           fi
