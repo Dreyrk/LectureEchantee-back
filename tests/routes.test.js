@@ -10,10 +10,9 @@ describe("ROUTES", () => {
       chaiExcept(res.status).to.equal(200);
     });
     it("GET /api/manhwa/id/:id should return status 200", async () => {
-      //Create a new manhwa
-      const testManhwa = await Manhwa.findOne().select("_id");
-      const id = testManhwa._id.toString();
-      //fetch manhwa by id with the id of the new manhwa created
+      let testManhwa = await fetch("http://127.0.0.1:5000/api/manhwa/random");
+      testManhwa = await testManhwa.json();
+      const id = testManhwa.data._id;
       const res = await fetch(`http://127.0.0.1:5000/api/manhwa/id/${id}`);
       chaiExcept(res.status).to.equal(200);
     });
