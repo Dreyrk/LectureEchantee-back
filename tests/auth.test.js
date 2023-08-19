@@ -24,6 +24,8 @@ describe("AUTH", () => {
 
       const data = await res.json();
 
+      console.log(data.user);
+
       chaiExcept(data.user.email).to.equals(newUser.email);
       chaiExcept(data.token).to.exist;
     });
