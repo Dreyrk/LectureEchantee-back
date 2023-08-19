@@ -23,11 +23,8 @@ describe("AUTH", () => {
       const res = await fetch("http://127.0.0.1:5000/api/users/login", opts);
 
       const data = await res.json();
-
-      console.log(data.user);
-
-      chaiExcept(data.data.user.email).to.equals(newUser.email);
-      chaiExcept(data.data.token).to.exist;
+      chaiExcept(data.user?.email).to.equals(newUser.email);
+      chaiExcept(data.token).to.exist;
     });
   });
 });
