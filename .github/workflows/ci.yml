@@ -10,8 +10,6 @@ jobs:
     env:
       TEST_URI: ${{ secrets.TEST_URI }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGO_INITDB_ROOT_USERNAME }}
-      MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}
       ENV: "test"
     steps:
     - name: Checkout Code
