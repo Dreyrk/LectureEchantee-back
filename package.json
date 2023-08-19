@@ -9,7 +9,7 @@
     "test": "docker compose -f ./docker-compose.test.yml --env-file ./.env up -d --build --force-recreate",
     "mocha": "npx mocha tests/*.test.js",
     "seed": "node seed.js",
-    "prod": "docker build -t prod_api -f Dockerfile.prod ."
+    "prod": "docker build -t prod_api -f prod.Dockerfile ."
   },
   "author": "",
   "license": "ISC",
