@@ -26,8 +26,8 @@ describe("AUTH", () => {
 
       console.log(data.user);
 
-      chaiExcept(data.user.email).to.equals(newUser.email);
-      chaiExcept(data.token).to.exist;
+      chaiExcept(data.data.user.email).to.equals(newUser.email);
+      chaiExcept(data.data.token).to.exist;
     });
   });
 });
