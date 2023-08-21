@@ -144,10 +144,12 @@ const manwhaControllers = {
 
     try {
       if (isValid(id)) {
-        await Manhwa.findByIdAndDelete(id);
-        res.status(204);
+        await Manhwa.findByIdAndRemove(id);
+        res.status(204).send({ success: true });
       } else {
-        res.status(400).send({ error: "missing or incorrect id" });
+        res
+          .status(400)
+          .send({ error: "missing or incorrect id", success: false });
       }
     } catch (e) {
       res.status(500).send({ error: e.message });

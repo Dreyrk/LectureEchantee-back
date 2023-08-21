@@ -18,6 +18,6 @@ manhwaRouter.post("/api/manhwa/create", manwhaControllers.create);
 manhwaRouter.put("/api/manhwa/:id/chapters", manwhaControllers.editChapters);
 manhwaRouter.put("/api/manhwa/:id/infos", manwhaControllers.editInfos);
 //DELETE
-manhwaRouter.delete("/api/manhwa/:id", manwhaControllers.delete);
+manhwaRouter.delete("/api/manhwa/:id/delete", manwhaControllers.delete);
 
 export default manhwaRouter;
