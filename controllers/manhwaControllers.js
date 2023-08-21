@@ -132,8 +132,8 @@ const manwhaControllers = {
       ) {
         res.status(400).send({ error: "Missing informations" });
       } else {
-        await Manhwa.create(newManhwa);
-        res.status(201).send({ message: "Created" });
+        const manhwaCreated = await Manhwa.create(newManhwa);
+        res.status(201).send({ message: "Created", data: manhwaCreated });
       }
     } catch (e) {
       res.status(500).send({ error: e.message });
@@ -144,10 +144,12 @@ const manwhaControllers = {
 
     try {
       if (isValid(id)) {
-        await Manhwa.findByIdAndDelete(id);
-        res.status(204);
+        await Manhwa.findByIdAndRemove(id);
+        res.status(204).send({ success: true });
       } else {
-        res.status(400).send({ error: "missing or incorrect id" });
+        res
+          .status(400)
+          .send({ error: "missing or incorrect id", success: false });
       }
     } catch (e) {
       res.status(500).send({ error: e.message });
@@ -162,6 +164,32 @@ const manwhaControllers = {
         const manhwaToUpdate = await Manhwa.findById(id);
 
         manhwaToUpdate.chapters.push(...newChapters);
+
+        await manhwaToUpdate.save();
+
+        res.status(200).send({ data: manhwaToUpdate });
+      }
+    } catch (e) {
+      res.status(500).send({ error: e.message });
+    }
+  },
+  editInfos: async (req, res) => {
+    const { id } = req.params;
+    const { status, rating, comments } = req.body;
+
+    try {
+      if ((isValid(id) && rating) || comments) {
+        const manhwaToUpdate = await Manhwa.findById(id);
+
+        if (status) {
+          manhwaToUpdate.status = status;
+        }
+        if (rating) {
+          manhwaToUpdate.rating = rating;
+        }
+        if (comments) {
+          manhwaToUpdate.comments.push(...comments);
+        }
 
         await manhwaToUpdate.save();
 

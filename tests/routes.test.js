@@ -1,8 +1,6 @@
 import chai from "chai";
 const { expect: chaiExcept } = chai;
 
-import Manhwa from "../models/manhwa.js";
-
 describe("ROUTES", () => {
   describe("Manhwa", () => {
     it("GET /api/manhwa/all should return status 200", async () => {

@@ -3,11 +3,6 @@ const { expect: chaiExcept } = chai;
 
 describe("DATA", () => {
   describe("Manhwa", () => {
-    it("GET /api/manhwa/all should return an array of 19 manhwas", async () => {
-      const res = await fetch("http://127.0.0.1:5000/api/manhwa/all");
-      const data = await res.json();
-      chaiExcept(data.data.length).to.equal(19);
-    });
     it("GET /api/manhwa/id/:id should return manhwa with correct id", async () => {
       let testManhwa = await fetch("http://127.0.0.1:5000/api/manhwa/random");
       testManhwa = await testManhwa.json();
@@ -44,7 +39,7 @@ describe("DATA", () => {
 
       chaiExcept(res.status).to.equals(201);
     });
-    it("PUT /api/manhwa/:id should update chapters", async () => {
+    it("PUT /api/manhwa/:id/chapters should update chapters", async () => {
       const newChapters = {
         chapters: ["test1", "test2", "test3"],
       };
@@ -71,6 +66,67 @@ describe("DATA", () => {
 
       chaiExcept(res.status).to.equals(200);
       chaiExcept(data.chapters[-1]).to.equals(newChapters.chapters[-1]);
+    });
+    it("PUT /api/manhwa/:id/infos should update infos", async () => {
+      const newInfos = {
+        status: "Completed",
+        rating: 4.6,
+        comments: [
+          {
+            user: {
+              pseudo: "TestMan",
+              avatar:
+                "https://img.freepik.com/free-icon/user_318-159711.jpg?w=2000",
+              id: "666",
+            },
+          },
+          {
+            user: {
+              pseudo: "TestMan2",
+              avatar:
+                "https://img.freepik.com/free-icon/user_318-159711.jpg?w=2000",
+              id: "777",
+            },
+          },
+        ],
+      };
+      const opts = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newInfos),
+      };
+
+      let manhwa = await fetch("http://127.0.0.1:5000/api/manhwa/all");
+      manhwa = await manhwa.json();
+
+      manhwa = manhwa.data[0];
+
+      const res = await fetch(
+        `http://127.0.0.1:5000/api/manhwa/${manhwa._id}/infos`,
+        opts
+      );
+
+      let data = await res.json();
+      data = data.data;
+
+      chaiExcept(res.status).to.equals(200);
+      chaiExcept(data.status).to.equals(newInfos.status);
+    });
+    it("DELETE /api/manhwa/:id should delete manhwa", async () => {
+      const opts = {
+        method: "DELETE",
+      };
+
+      let manhwa = await fetch("http://127.0.0.1:5000/api/manhwa/random");
+      manhwa = await manhwa.json();
+
+      const res = await fetch(
+        `http://127.0.0.1:5000/api/manhwa/${manhwa.data._id}/delete`,
+        opts
+      );
+      chaiExcept(res.status).to.equals(204);
     });
   });
 });
