@@ -123,7 +123,7 @@ describe("DATA", () => {
       manhwa = await manhwa.json();
 
       const res = await fetch(
-        `http://127.0.0.1:5000/api/manhwa/${manhwa._id}`,
+        `http://127.0.0.1:5000/api/manhwa/${manhwa.data._id}`,
         opts
       );
       chaiExcept(res.status).to.equals(204);

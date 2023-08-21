@@ -132,8 +132,8 @@ const manwhaControllers = {
       ) {
         res.status(400).send({ error: "Missing informations" });
       } else {
-        await Manhwa.create(newManhwa);
-        res.status(201).send({ message: "Created" });
+        const manhwaCreated = await Manhwa.create(newManhwa);
+        res.status(201).send({ message: "Created", data: manhwaCreated });
       }
     } catch (e) {
       res.status(500).send({ error: e.message });
