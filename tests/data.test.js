@@ -59,7 +59,7 @@ describe("DATA", () => {
       let manhwa = await fetch("http://127.0.0.1:5000/api/manhwa/all");
       manhwa = await manhwa.json();
 
-      manhwa = manhwa.data[-1];
+      manhwa = manhwa.data[0];
 
       const res = await fetch(
         `http://127.0.0.1:5000/api/manhwa/${manhwa._id}/chapters`,
@@ -106,7 +106,7 @@ describe("DATA", () => {
       let manhwa = await fetch("http://127.0.0.1:5000/api/manhwa/all");
       manhwa = await manhwa.json();
 
-      manhwa = manhwa.data[-1];
+      manhwa = manhwa.data[0];
 
       const res = await fetch(
         `http://127.0.0.1:5000/api/manhwa/${manhwa._id}/infos`,
@@ -126,7 +126,7 @@ describe("DATA", () => {
 
       let manhwa = await fetch("http://127.0.0.1:5000/api/manhwa/all");
       manhwa = await manhwa.json();
-      manhwa = manhwa[-1];
+      manhwa = manhwa.data[0];
 
       const res = await fetch(
         `http://127.0.0.1:5000/api/manhwa/${manhwa._id}`,
