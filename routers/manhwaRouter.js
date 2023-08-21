@@ -14,9 +14,9 @@ manhwaRouter.get("/api/manhwa/title", manwhaControllers.getByTitle);
 
 //POST
 manhwaRouter.post("/api/manhwa/create", manwhaControllers.create);
-
 //PUT
 manhwaRouter.put("/api/manhwa/:id/chapters", manwhaControllers.editChapters);
+manhwaRouter.put("/api/manhwa/:id/infos", manwhaControllers.editInfos);
 //DELETE
 manhwaRouter.delete("/api/manhwa/:id", manwhaControllers.delete);
 

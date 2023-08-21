@@ -171,6 +171,32 @@ const manwhaControllers = {
       res.status(500).send({ error: e.message });
     }
   },
+  editInfos: async (req, res) => {
+    const { id } = req.params;
+    const { status, rating, comments } = req.body;
+
+    try {
+      if ((isValid(id) && rating) || comments) {
+        const manhwaToUpdate = await Manhwa.findById(id);
+
+        if (status) {
+          manhwaToUpdate.status = status;
+        }
+        if (rating) {
+          manhwaToUpdate.rating = rating;
+        }
+        if (comments) {
+          manhwaToUpdate.comments.push(...comments);
+        }
+
+        await manhwaToUpdate.save();
+
+        res.status(200).send({ data: manhwaToUpdate });
+      }
+    } catch (e) {
+      res.status(500).send({ error: e.message });
+    }
+  },
 };
 
 export default manwhaControllers;

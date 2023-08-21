@@ -6,6 +6,7 @@ const userSchema = mongoose.Schema({
   email: { type: String },
   password: { type: String },
   isAdmin: { type: Boolean },
+  avatar: { type: String },
   library: {
     manhwa: [manhwaSchema],
   },
