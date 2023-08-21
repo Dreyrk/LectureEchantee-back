@@ -119,7 +119,7 @@ const manwhaControllers = {
     }
   },
   create: async (req, res) => {
-    const { newManhwa } = req.body;
+    const newManhwa = req.body;
     try {
       if (
         !newManhwa.title ||
@@ -134,6 +134,38 @@ const manwhaControllers = {
       } else {
         await Manhwa.create(newManhwa);
         res.status(201).send({ message: "Created" });
+      }
+    } catch (e) {
+      res.status(500).send({ error: e.message });
+    }
+  },
+  delete: async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      if (isValid(id)) {
+        await Manhwa.findByIdAndDelete(id);
+        res.status(204);
+      } else {
+        res.status(400).send({ error: "missing or incorrect id" });
+      }
+    } catch (e) {
+      res.status(500).send({ error: e.message });
+    }
+  },
+  editChapters: async (req, res) => {
+    const { id } = req.params;
+    const newChapters = req.body.chapters;
+
+    try {
+      if (isValid(id) && newChapters) {
+        const manhwaToUpdate = await Manhwa.findById(id);
+
+        manhwaToUpdate.chapters.push(...newChapters);
+
+        await manhwaToUpdate.save();
+
+        res.status(200).send({ data: manhwaToUpdate });
       }
     } catch (e) {
       res.status(500).send({ error: e.message });
