@@ -119,9 +119,8 @@ describe("DATA", () => {
         method: "DELETE",
       };
 
-      let manhwa = await fetch("http://127.0.0.1:5000/api/manhwa/all");
+      let manhwa = await fetch("http://127.0.0.1:5000/api/manhwa/random");
       manhwa = await manhwa.json();
-      manhwa = manhwa.data[0];
 
       const res = await fetch(
         `http://127.0.0.1:5000/api/manhwa/${manhwa._id}`,
