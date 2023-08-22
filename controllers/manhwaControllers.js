@@ -216,7 +216,7 @@ const manwhaControllers = {
   },
   editInfos: async (req, res) => {
     const { id } = req.params;
-    const { status, rating, comments } = req.body;
+    const { status, rating, comment } = req.body;
 
     try {
       if (isValid(id)) {
@@ -228,13 +228,13 @@ const manwhaControllers = {
         if (rating) {
           manhwaToUpdate.rating = rating;
         }
-        if (comments) {
-          manhwaToUpdate.comments.push(...comments);
+        if (comment) {
+          manhwaToUpdate.comments.push(comment);
         }
 
         await manhwaToUpdate.save();
 
-        res.status(200).send({ success: true });
+        res.status(200).send({ success: true, data: manhwaToUpdate });
       } else if (!isValid(id)) {
         res.status(400).send({ error: "Invalid or missing id" });
       }
