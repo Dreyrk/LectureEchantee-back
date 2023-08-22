@@ -1,11 +1,15 @@
 import Manhwa from "../models/manhwa.js";
+import generateFilters from "../utils/generateFilters.js";
+import generateSort from "../utils/generateSort.js";
 import isValid from "../utils/isValid.js";
 
 const manwhaControllers = {
   getAll: async (req, res) => {
     try {
-      const count = await Manhwa.count({});
-      const data = await Manhwa.find({});
+      const filters = generateFilters(req.query);
+      const sort = generateSort(req.query);
+      const count = await Manhwa.count(filters);
+      const data = await Manhwa.find(filters).sort(sort);
 
       if (!data[0]) {
         res.status(404).send({ error: "Data not found" });
