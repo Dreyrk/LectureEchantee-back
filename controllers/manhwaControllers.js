@@ -216,7 +216,7 @@ const manwhaControllers = {
   },
   editInfos: async (req, res) => {
     const { id } = req.params;
-    const { status, rating, comments } = req.body;
+    const { status, rating, comment } = req.body;
 
     try {
       if (isValid(id)) {
@@ -229,7 +229,7 @@ const manwhaControllers = {
           manhwaToUpdate.rating = rating;
         }
         if (comments) {
-          manhwaToUpdate.comments.push(...comments);
+          manhwaToUpdate.comments.push(comment);
         }
 
         await manhwaToUpdate.save();
