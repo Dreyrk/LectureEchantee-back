@@ -234,7 +234,7 @@ const manwhaControllers = {
 
         await manhwaToUpdate.save();
 
-        res.status(200).send({ success: true });
+        res.status(200).send({ success: true, status: manhwaToUpdate.status });
       } else if (!isValid(id)) {
         res.status(400).send({ error: "Invalid or missing id" });
       }
