@@ -32,6 +32,31 @@ const userControllers = {
       res.status(500).send({ error: e.message });
     }
   },
+  bookmark: async (req, res) => {
+    const { id } = req.params;
+    const manhwaBookmarked = req.body;
+    try {
+      const userToUpdate = await Users.findById(id);
+
+      if (
+        userToUpdate.library.manhwa.some(
+          (el) => el.title === manhwaBookmarked.title
+        )
+      ) {
+        userToUpdate.library.manhwa.filter(
+          (el) => el.title !== manhwaBookmarked.title
+        );
+      } else {
+        await userToUpdate.library.manhwa.push(manhwaBookmarked);
+      }
+
+      await userToUpdate.save();
+
+      res.status(200).send({ success: true });
+    } catch (e) {
+      res.status(500).send({ error: e.message, success: false });
+    }
+  },
 };
 
 export default userControllers;
