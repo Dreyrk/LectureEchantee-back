@@ -219,7 +219,7 @@ const manwhaControllers = {
     const { status, rating, comments } = req.body;
 
     try {
-      if ((isValid(id) && rating) || comments) {
+      if (isValid(id)) {
         const manhwaToUpdate = await Manhwa.findById(id);
 
         if (status) {
@@ -234,7 +234,9 @@ const manwhaControllers = {
 
         await manhwaToUpdate.save();
 
-        res.status(200).send({ data: manhwaToUpdate });
+        res.status(200).send({ success: true });
+      } else if (!isValid(id)) {
+        res.status(400).send({ error: "Invalid or missing id" });
       }
     } catch (e) {
       res.status(500).send({ error: e.message });
