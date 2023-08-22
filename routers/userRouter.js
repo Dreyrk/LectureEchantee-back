@@ -17,8 +17,14 @@ userRouter.put(
   verifyToken,
   userControllers.bookmark
 );
+userRouter.put(
+  "/api/users/:id/admin",
+  verifyToken,
+  userControllers.passToAdmin
+);
 
 //GET
-userRouter.get("api/users/:id", verifyToken, userControllers.getById);
+userRouter.get("/api/users/id/:id", verifyToken, userControllers.getById);
+userRouter.get("/api/users/all", userControllers.getAll);
 
 export default userRouter;

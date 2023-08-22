@@ -1,17 +1,18 @@
 import Users from "../models/users.js";
 
 const userControllers = {
+  getAll: async (req, res) => {
+    const data = await Users.find({});
+
+    res.status(200).send({ data });
+  },
   create: async (req, res) => {
-    const { pseudo, email, password } = req.body;
+    const user = req.body;
     try {
-      if (!pseudo && !email && !password) {
+      if (!user.pseudo && !user.email && !user.password) {
         res.status(400).send({ error: "Missing informations to create user" });
       } else {
-        await Users.create({
-          pseudo,
-          email,
-          password,
-        });
+        await Users.create(user);
       }
       res.status(201).send({ success: true });
     } catch (e) {
@@ -55,6 +56,24 @@ const userControllers = {
       res.status(200).send({ success: true });
     } catch (e) {
       res.status(500).send({ error: e.message, success: false });
+    }
+  },
+  passToAdmin: async (req, res) => {
+    const isAdmin = req.admin;
+    const { id } = req.params;
+    try {
+      if (isAdmin) {
+        const userToUpdate = await Users.findById(id);
+        userToUpdate.isAdmin = true;
+        await userToUpdate.save();
+        res.send(200).send({ success: true });
+      } else if (!isAdmin) {
+        res.status(401).send({
+          error: "Unauthaurized. Only admin can access to this feature",
+        });
+      }
+    } catch (e) {
+      res.status(500).send({ error: e.message });
     }
   },
 };

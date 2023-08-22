@@ -15,11 +15,14 @@ const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded._id) {
+    if (decoded.isAdmin) {
+      req.admin = true;
+      next();
+    } else if (!decoded.isAdmin && decoded._id) {
       next();
     }
   } catch (error) {
-    res.status(401).json({ error: "Invalid token." });
+    res.status(401).json({ error: `Invalid token: ${error.message}` });
   }
 };
 
