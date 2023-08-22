@@ -19,6 +19,7 @@ export const manhwaSchema = mongoose.Schema(
       enum: ["Ongoing", "Completed", "Dropped", "Coming Soon"],
     },
     comments: [commentSchema],
+    promoted: { type: Boolean },
   },
   { timestamps: true }
 );
