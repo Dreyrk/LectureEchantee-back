@@ -228,7 +228,7 @@ const manwhaControllers = {
         if (rating) {
           manhwaToUpdate.rating = rating;
         }
-        if (comments) {
+        if (comment) {
           manhwaToUpdate.comments.push(comment);
         }
 
