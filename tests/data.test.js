@@ -110,7 +110,6 @@ describe("DATA", () => {
 
       let data = await res.json();
       data = data.data;
-
       chaiExcept(res.status).to.equals(200);
       chaiExcept(data.status).to.equals(newInfos.status);
     });
