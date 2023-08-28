@@ -5,9 +5,10 @@ import isValid from "../utils/isValid.js";
 
 const manwhaControllers = {
   getAll: async (req, res) => {
+    const query = req.query;
     try {
-      const filters = generateFilters(req.query);
-      const sort = generateSort(req.query);
+      const filters = generateFilters(query);
+      const sort = generateSort(query);
       const count = await Manhwa.count(filters);
       const data = await Manhwa.find(filters).sort(sort);
 
