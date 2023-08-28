@@ -51,6 +51,43 @@ const manwhaControllers = {
       res.status(500).send({ error: e.message });
     }
   },
+  getPromoted: async (req, res) => {
+    try {
+      const data = await Manhwa.find({ promoted: true })
+        .sort({ rating: -1 })
+        .limit(4);
+
+      if (!data) {
+        res.status(404).send({ error: "Manhwa not found" });
+      } else {
+        res.status(200).send({ data });
+      }
+    } catch (e) {
+      res.status(500).send({ error: e.message });
+    }
+  },
+  promote: async (req, res) => {
+    const { id } = req.params;
+    try {
+      if (isValid(id)) {
+        const manhwaToUpdate = await Manhwa.findById(id);
+
+        if (manhwaToUpdate.promoted) {
+          manhwaToUpdate.promoted = false;
+        } else {
+          manhwaToUpdate.promoted = true;
+        }
+
+        await manhwaToUpdate.save();
+
+        res.status(200).send({ success: true });
+      } else {
+        res.status(404).send({ error: "Manhwa not found" });
+      }
+    } catch (e) {
+      res.status(500).send({ error: e.message });
+    }
+  },
   getByRating: async (req, res) => {
     try {
       const data = await Manhwa.find().sort({ rating: -1 }).limit(10);
@@ -179,10 +216,10 @@ const manwhaControllers = {
   },
   editInfos: async (req, res) => {
     const { id } = req.params;
-    const { status, rating, comments } = req.body;
+    const { status, rating, comment } = req.body;
 
     try {
-      if ((isValid(id) && rating) || comments) {
+      if (isValid(id)) {
         const manhwaToUpdate = await Manhwa.findById(id);
 
         if (status) {
@@ -191,13 +228,15 @@ const manwhaControllers = {
         if (rating) {
           manhwaToUpdate.rating = rating;
         }
-        if (comments) {
-          manhwaToUpdate.comments.push(...comments);
+        if (comment) {
+          manhwaToUpdate.comments.push(comment);
         }
 
         await manhwaToUpdate.save();
 
-        res.status(200).send({ data: manhwaToUpdate });
+        res.status(200).send({ success: true, data: manhwaToUpdate });
+      } else if (!isValid(id)) {
+        res.status(400).send({ error: "Invalid or missing id" });
       }
     } catch (e) {
       res.status(500).send({ error: e.message });
