@@ -144,21 +144,6 @@ const manwhaControllers = {
       res.status(500).send({ error: e.message });
     }
   },
-  getByFilters: async (req, res) => {
-    let query = {};
-    if (!req.query.order) {
-      query = { ...req.query };
-    } else if (req.query.status) {
-      query = { ...query, status: req.query.status };
-    } else if (req.query.genre) {
-      query = { ...query, genre: req.query.genre };
-    }
-    try {
-      const data = await Manhwa.find(query).sort({});
-    } catch (e) {
-      res.status(500).send({ error: e.message });
-    }
-  },
   create: async (req, res) => {
     const newManhwa = req.body;
     try {
