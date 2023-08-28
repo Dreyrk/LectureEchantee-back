@@ -1,5 +1,5 @@
 const generateFilters = (query) => {
-  const filters = {};
+  let filters = {};
   const validFilters = ["status", "author", "genre"];
 
   for (const filterName of validFilters) {
